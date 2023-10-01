@@ -426,7 +426,7 @@ Ply2_BackHandR = ifa (turn == nd_de_ct) {    // Player2 backhand return to Playe
       		                                                     else { turn = (turn+1)%4} }-> NextPt			
       		 }};
 
-// deuce stroke is when player2 hit position is 6
+// deuce stroke is when player2 hit position is 12
 Ply2_de_stroke = pcase { // if already 
 			p108: FH_Crosscourt {ball=1} -> Ply1_de_stroke
 			p108: FH_Crosscourt {ball=4} -> Ply1_de_stroke
@@ -446,7 +446,7 @@ Ply2_de_stroke = pcase { // if already
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};
 
-// mid stroke is when player2 hit position is 5
+// mid stroke is when player2 hit position is 11
 Ply2_mid_stroke = noMove -> pcase{
 			p116: FH_InsideOut {ball=3} -> Ply1_ad_stroke
 			p116: FH_InsideOut {ball=6} -> Ply1_ad_stroke
@@ -466,7 +466,7 @@ Ply2_mid_stroke = noMove -> pcase{
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};
 
-// ad stroke is when player 2 hit position is 4
+// ad stroke is when player 2 hit position is 10
 Ply2_ad_stroke = pcase{
 			p124: FH_InsideOut {ball=3} -> Ply1_ad_stroke
 			p124: FH_InsideOut {ball=6} -> Ply1_ad_stroke
