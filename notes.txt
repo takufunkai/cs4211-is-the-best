@@ -1,0 +1,7 @@
+18/10/2023
+
+Running the excel sheet through pandas raw gives us a killed command
+We need to write a bash script that can grep the lines from the csv that we need
+then add it to a new csv file for that particular match
+then let it be processed by the python script
+
