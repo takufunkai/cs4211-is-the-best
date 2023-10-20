@@ -665,7 +665,7 @@ Ply2_deep_de_stroke = pcase { // if already
 
 
 // mid stroke is when player2 hit position is 8
-Ply2_mid_stroke = noMove -> pcase{
+Ply2_mid_stroke = pcase{
 			p224: FH_InsideOut {ball=3} -> Ply1_ad_stroke
 			p225: FH_InsideOut_Deep {ball=6} -> Ply1_deep_ad_stroke
 			p226: FH_Crosscourt{ball=1} -> Ply1_de_stroke
@@ -687,7 +687,7 @@ Ply2_mid_stroke = noMove -> pcase{
 
 // player 2, mid deep, court 11
 // player 2 is hitting the ball from deep in mid court
-Ply2_deep_mid_stroke = noMove -> pcase{
+Ply2_deep_mid_stroke = pcase{
     p238: FH_InsideOut {ball=3} -> Ply1_ad_stroke
     p239: FH_InsideOut_Deep {ball=6} -> Ply1_deep_ad_stroke
     p240: FH_Crosscourt{ball=1} -> Ply1_de_stroke
