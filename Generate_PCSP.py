@@ -16,9 +16,10 @@ warnings.simplefilter("ignore")
 # generate pcsp file
 def generate_pcsp(params, date, ply1_name, ply2_name, hand1, hand2):
     VAR = 'var.txt'
-    HAND = '%s_%s.txt' % (hand1, hand2)
-    file_name = '%s_%s_' % (hand1, hand2)
-    file_name += '%s_%s_%s.pcsp' % (date, ply1_name.replace(' ', '-'), ply2_name.replace(' ', '-'))
+    HAND = '%s_%s_subdivided.txt' % (hand1, hand2)
+    # file_name = '%s_%s_' % (hand1, hand2)
+    # file_name += '%s_%s_%s.pcsp' % (date, ply1_name.replace(' ', '-'), ply2_name.replace(' ', '-'))
+    file_name = 'ezekiel-test.pcsp'
     # write to file
     lines = []
     with open(VAR) as f:
@@ -58,6 +59,16 @@ def get_params(df, hand):
     Ad_Serve = df.query('shot_type==1 and from_which_court==3') # 1st serve, ad
     Ad_Serve_2nd = df.query('shot_type==2 and from_which_court==3') # 2nd serve, ad
     # Return
+
+    # # Ezekiel: This is how we might model specific shots
+    # De_ForeHandR_slice = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 3')
+    # De_ForeHandR_volley = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 5')
+    # De_ForeHandR_smash = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 7')
+    # De_ForeHandR_dropshot = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 9')
+    # De_ForeHandR_lob = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 11')
+    # # TODO:... Include more shot types
+
+    # This is the original way of modelling shots
     De_ForeHandR = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot<=20')  # return shot, deuce, forehand
     Ad_ForeHandR = df.query('shot_type==3 and prev_shot_from_which_court==3 and shot<=20') # return shot, ad, forehand
     De_BackHandR = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot<=40 and shot>20') # return shot, deuce, backhand
@@ -96,7 +107,10 @@ def get_params(df, hand):
                       [[[1], [1]], [[1], [3]], [[1], [2]]],                    # BH_[CC, DL, DM]
                       [[[2], [1]], [[3], [1]], [[2, 3], [3]], [[2, 3], [2]]]]  # BH_[CC, II, IO, DM]
     for i, Return in enumerate([De_ForeHandR, Ad_ForeHandR, De_BackHandR, Ad_BackHandR]):
-        shots = [Return.query('from_which_court in @dir[0] and to_which_court in @dir[1]') for dir in directions[i]]
+        shots = [Return.query('from_which_court in @dir[0] and to_which_court in @dir[1] and depth in @depth') 
+                  for dir in directions[i]
+                  for depth in [[1, 99], [2,3]] # Shallow/unknown, deep/very deep
+                ]
         return_in = [len(x.query('shot_outcome==7')) for x in shots]
         return_win = [len(Return.query('shot_outcome in [1, 5, 6]'))]
         return_err = [len(Return.query('shot_outcome in [2, 3, 4]'))]
@@ -112,11 +126,31 @@ def get_params(df, hand):
         directions = [[[1, 3, 2], [1, 3, 2]],  # de - FHIO, FHII, FHDM, BHCC, BHDL, BHDM
                       [[1, 3, 2], [3, 1, 2]],  # mid - FHIO, FHCC, FHDM, BHIO, BHCC, BHDM
                       [[3, 1, 2], [1, 3, 2]]]  # ad - FHCC, FHDL, FHDM, BHII, BHIO, BHDM
-    for i, Stroke in enumerate([De_Stroke, Mid_Stroke, Ad_Stroke]):
+        
+    # This query checks whether we are taking the stroke from deep or not
+    # (!!) Nothing to do with the depth of current shot, this is done in the for-depth-loop
+    Shallow_De_Stroke = De_Stroke.query('prev_shot_depth in [1, 99]') # shallow, unknown
+    Deep_De_Stroke = De_Stroke.query('prev_shot_depth in [2, 3]') # deep, very deep
+    Shallow_Mid_Stroke = Mid_Stroke.query('prev_shot_depth in [1, 99]') # shallow, unknown
+    Deep_Mid_Stroke = Mid_Stroke.query('prev_shot_depth in [2, 3]') # deep, very deep
+    Shallow_Ad_Stroke = Ad_Stroke.query('prev_shot_depth in [1, 99]') # shallow, unknown
+    Deep_Ad_Stroke = Ad_Stroke.query('prev_shot_depth in [2, 3]') # deep, very deep
+
+    Strokes = [Shallow_De_Stroke, Deep_De_Stroke, Shallow_Mid_Stroke, 
+               Deep_Mid_Stroke, Shallow_Ad_Stroke, Deep_Ad_Stroke]
+
+    for i, Stroke in enumerate(Strokes):
+        directionIndex = i // 2
         FH_Stroke = Stroke.query('shot<=20')
         BH_Stroke = Stroke.query('shot<=40 and shot>20')
-        FH_shots = [FH_Stroke.query('to_which_court==@to_dir') for to_dir in directions[i][0]]
-        BH_shots = [BH_Stroke.query('to_which_court==@to_dir') for to_dir in directions[i][1]]
+        FH_shots = [FH_Stroke.query('to_which_court==@to_dir and depth in @depth')  
+                    for to_dir in directions[directionIndex][0]
+                    for depth in [[1, 99], [2,3]] # shallow/unknown, deep/very deep
+                  ]
+        BH_shots = [BH_Stroke.query('to_which_court==@to_dir and depth in @depth') 
+                    for to_dir in directions[directionIndex][1]
+                    for depth in [[1, 99], [2,3]] # shallow/unknown, deep/very deep
+                  ]
         shots = FH_shots + BH_shots
         FH_stroke_in = [len(x.query('shot_outcome==7')) for x in FH_shots]
         BH_stroke_in = [len(x.query('shot_outcome==7')) for x in BH_shots]
@@ -150,7 +184,7 @@ def generate_transition_probs(data, date, ply1_name, ply2_name, ply1_hand, ply2_
 
     print(len(params))
 
-    # generate_pcsp(params, date, ply1_name, ply2_name, ply1_hand, ply2_hand)
+    generate_pcsp(params, date, ply1_name, ply2_name, ply1_hand, ply2_hand)
 
 
 date = '2021-02-21'
@@ -161,7 +195,7 @@ ply2_hand = 'RH'
 gender = 'M'
 
 # obtain shot-by-shot data
-file = 'tennisabstract-v2-combined.csv'
+file = 'output-test.csv'
 print('reading csv')
 data = pd.read_csv(file, names=['ply1_name', 'ply2_name', 'ply1_hand', 'ply2_hand', 'ply1_points',
                                 'ply2_points', 'ply1_games', 'ply2_games', 'ply1_sets', 'ply2_sets', 'date',

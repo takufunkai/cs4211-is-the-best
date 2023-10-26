@@ -36,7 +36,7 @@ Ad_Ply1Serve_2nd = pcase {                 //1st serve is out
 			p17: ServeWide_in{ball=4} -> Ply2_BackHandR
 			p18: Serve_winner{ball=9} -> FWinner{fscore++; if (fscore == points) {won = player1} 
       		                                                        else { turn = (turn+1)%4} }-> NextPt
-			p19: Serve_err{ball=9} -> Fdoublefault{nscore++; if (nscore == points) {won = player2} 
+	DATE=2021-02-21		p19: Serve_err{ball=9} -> Fdoublefault{nscore++; if (nscore == points) {won = player2} 
       		                                                        else { turn = (turn+1)%4} }-> NextPt
      		 };    
      		 
