@@ -1,0 +1,9 @@
+enum{nd_ad_ct, nd_de_ct, dm_ad_ct, dm_de_ct}; //serve position: ad court or deuce court
+enum{player1, player2, na};
+
+var turn = na; //serve turn;
+var ndscore = 0;
+var dmscore = 0;
+var won = na;
+var ball = 13;
+var points = 7;
