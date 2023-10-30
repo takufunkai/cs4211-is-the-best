@@ -17,9 +17,11 @@ warnings.simplefilter("ignore")
 def generate_pcsp(params, date, ply1_name, ply2_name, hand1, hand2):
     VAR = 'var.txt'
     HAND = '%s_%s_subdivided.txt' % (hand1, hand2)
-    # file_name = '%s_%s_' % (hand1, hand2)
-    # file_name += '%s_%s_%s.pcsp' % (date, ply1_name.replace(' ', '-'), ply2_name.replace(' ', '-'))
-    file_name = 'ezekiel-test.pcsp'
+    PATH_TO_MODELS = '../models/'
+
+    file_name = '%s_%s_' % (hand1, hand2)
+    file_name += '%s_%s_%s.pcsp' % (date, ply1_name.replace(' ', '-'), ply2_name.replace(' ', '-'))
+    file_name = os.path.join(PATH_TO_MODELS, file_name)
     # write to file
     lines = []
     with open(VAR) as f:
