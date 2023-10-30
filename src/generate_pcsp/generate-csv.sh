@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This script aims to reduce the number of lines that we need to process in the generate_pcsp.py script.
+# We only take a chunk from the main csv file.
+# TODO: Might need to change this to non-player specific data
+
 P1='Novak Djokovic'
 P2='Daniil Medvedev'
 OUTPUT=output-test.csv
