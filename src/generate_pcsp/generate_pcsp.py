@@ -60,21 +60,13 @@ def get_params(df, hand):
     De_Serve_2nd = df.query('shot_type==2 and from_which_court==1') # 2nd serve, deuce
     Ad_Serve = df.query('shot_type==1 and from_which_court==3') # 1st serve, ad
     Ad_Serve_2nd = df.query('shot_type==2 and from_which_court==3') # 2nd serve, ad
+
     # Return
-
-    # # Ezekiel: This is how we might model specific shots
-    # De_ForeHandR_slice = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 3')
-    # De_ForeHandR_volley = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 5')
-    # De_ForeHandR_smash = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 7')
-    # De_ForeHandR_dropshot = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 9')
-    # De_ForeHandR_lob = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 11')
-    # # TODO:... Include more shot types
-
-    # This is the original way of modelling shots
     De_ForeHandR = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot<=20')  # return shot, deuce, forehand
     Ad_ForeHandR = df.query('shot_type==3 and prev_shot_from_which_court==3 and shot<=20') # return shot, ad, forehand
     De_BackHandR = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot<=40 and shot>20') # return shot, deuce, backhand
     Ad_BackHandR = df.query('shot_type==3 and prev_shot_from_which_court==3 and shot<=40 and shot>20') # return shot, ad, backhand
+
     # Rally Stroke
     De_Stroke = df.query('shot_type==4 and from_which_court==1')
     Mid_Stroke = df.query('shot_type==4 and from_which_court==2')
@@ -129,19 +121,22 @@ def get_params(df, hand):
                       [[1, 3, 2], [3, 1, 2]],  # mid - FHIO, FHCC, FHDM, BHIO, BHCC, BHDM
                       [[3, 1, 2], [1, 3, 2]]]  # ad - FHCC, FHDL, FHDM, BHII, BHIO, BHDM
         
-    # This query checks whether we are taking the stroke from deep or not
-    # Also checks from Front or Back
-    # (!!) Nothing to do with the depth of current shot, this is done in the for-depth-loop
-    shallow = 'prev_shot_depth in [1,99]'
-    deep = 'prev_shot_depth in [2,3]'
-    fronthand = 'prev_shot<=20'
-    backhand = 'prev_shot<=40 and prev_shot>20'
-
+    # Build strokes
+    '''
+    Output:
+    de_from_FH
+    de_from_BH
+    de_from_deep_from_FH
+    de_from_deep_from_BH
+    mid_from_FH
+    ......
+    ad_from_deep_from_BH
+    '''
     Strokes = [
         Stroke.query(f'{depth} and {hand}')
-        for Stroke in [De_Stroke, Mid_Stroke, Ad_Stroke]
-        for depth in [shallow, deep]
-        for hand in [fronthand, backhand]
+        for Stroke in [De_Stroke, Mid_Stroke, Ad_Stroke] # Location stroke is being taken from
+        for depth in ['prev_shot_depth in [1,99]', 'prev_shot_depth in [2,3]'] # ball came from shallow, from deep
+        for hand in ['prev_shot<=20', 'prev_shot<=40 and prev_shot>20'] # ball came from forehand, from backhand
     ]
 
     for i, Stroke in enumerate(Strokes):
