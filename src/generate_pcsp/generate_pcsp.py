@@ -136,7 +136,7 @@ def get_params(df, hand):
         Stroke.query(f'{depth} and {hand}')
         for Stroke in [De_Stroke, Mid_Stroke, Ad_Stroke] # Location stroke is being taken from
         for depth in ['prev_shot_depth in [1,99]', 'prev_shot_depth in [2,3]'] # ball came from shallow, from deep
-        for hand in ['prev_shot<=20', 'prev_shot<=40 and prev_shot>20'] # ball came from forehand, from backhand
+        # for hand in ['prev_shot<=20', 'prev_shot<=40 and prev_shot>20'] # ball came from forehand, from backhand
     ]
 
     for i, Stroke in enumerate(Strokes):
@@ -178,7 +178,7 @@ def generate_transition_probs(data, date, ply1_name, ply2_name):
     print(f'{date} - {ply1_name} : {ply2_name}')
     print(f'  {len(data_ply1.date.unique())} match')
 
-    generate_pcsp(params, date, ply1_name, ply2_name, ply1_hand, ply2_hand)
+    # generate_pcsp(params, date, ply1_name, ply2_name, ply1_hand, ply2_hand)
 
 # obtain shot-by-shot data
 file = 'output-test.csv'
