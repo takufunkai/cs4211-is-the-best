@@ -130,16 +130,19 @@ def get_params(df, hand):
                       [[3, 1, 2], [1, 3, 2]]]  # ad - FHCC, FHDL, FHDM, BHII, BHIO, BHDM
         
     # This query checks whether we are taking the stroke from deep or not
+    # Also checks from Front or Back
     # (!!) Nothing to do with the depth of current shot, this is done in the for-depth-loop
-    Shallow_De_Stroke = De_Stroke.query('prev_shot_depth in [1, 99]') # shallow, unknown
-    Deep_De_Stroke = De_Stroke.query('prev_shot_depth in [2, 3]') # deep, very deep
-    Shallow_Mid_Stroke = Mid_Stroke.query('prev_shot_depth in [1, 99]') # shallow, unknown
-    Deep_Mid_Stroke = Mid_Stroke.query('prev_shot_depth in [2, 3]') # deep, very deep
-    Shallow_Ad_Stroke = Ad_Stroke.query('prev_shot_depth in [1, 99]') # shallow, unknown
-    Deep_Ad_Stroke = Ad_Stroke.query('prev_shot_depth in [2, 3]') # deep, very deep
+    shallow = 'prev_shot_depth in [1,99]'
+    deep = 'prev_shot_depth in [2,3]'
+    fronthand = 'prev_shot<=20'
+    backhand = 'prev_shot<=40 and prev_shot>20'
 
-    Strokes = [Shallow_De_Stroke, Deep_De_Stroke, Shallow_Mid_Stroke, 
-               Deep_Mid_Stroke, Shallow_Ad_Stroke, Deep_Ad_Stroke]
+    Strokes = [
+        Stroke.query(f'{depth} and {hand}')
+        for Stroke in [De_Stroke, Mid_Stroke, Ad_Stroke]
+        for depth in [shallow, deep]
+        for hand in [fronthand, backhand]
+    ]
 
     for i, Stroke in enumerate(Strokes):
         directionIndex = i // 2
@@ -203,10 +206,11 @@ data = pd.read_csv(file, names=['ply1_name', 'ply2_name', 'ply1_hand', 'ply2_han
 date = '2018-12-31'
 prev_date = (pd.to_datetime(date) - relativedelta(years=1)).strftime('%Y-%m-%d')
 
-# Filter data within dates and get all unique player pairs
+# 1. Get list of possible match-ups (unique combinations of date, ply1_name and ply2_name)
 filtered_data = data.query('date>@prev_date and date<=@date')
 player_pairs = set(tuple(sorted(t)) for t in zip(filtered_data['date'],
                                                  filtered_data['ply1_name'], filtered_data['ply2_name']))
 
+# 2. For each match-up, generate pcsp file
 for date, ply1_name, ply2_name in player_pairs:
     generate_transition_probs(filtered_data, date, ply1_name, ply2_name)
