@@ -51,7 +51,7 @@ Ply1_ForeHandR = ifa (turn == p2_de_ct) {    // Player 1 forehand return to Play
 			p23: FH_DownLine_Deep{ball=10} -> Ply2_deep_ad_from_FH_stroke
 			p24: FH_DownMid{ball=8} -> Ply2_mid_from_FH_stroke
 			p25: FH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_FH_stroke
-			p26: FH_Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p26: FH_Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
 			p27: FH_Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt
@@ -66,7 +66,7 @@ Ply1_ForeHandR = ifa (turn == p2_de_ct) {    // Player 1 forehand return to Play
 			p33: FH_CrossCourt_Deep{ball=12} -> Ply2_deep_de_from_FH_stroke
 			p34: FH_DownMid{ball=8} -> Ply2_mid_from_FH_stroke
 			p35: FH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_FH_stroke
-			p36: FH_Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p36: FH_Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
 			p37: FH_Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt
@@ -82,7 +82,7 @@ Ply1_BackHandR = ifa (turn == p2_de_ct) {    // Player 1 backhand return to Play
 			p43: BH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_BH_stroke
 			p44: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p45: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p46: BH_Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p46: BH_Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
 			p47: BH_Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt
@@ -95,7 +95,7 @@ Ply1_BackHandR = ifa (turn == p2_de_ct) {    // Player 1 backhand return to Play
 			p51: BH_DownLine_Deep{ball=12} -> Ply2_deep_de_from_BH_stroke
 			p52: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p53: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p54: BH_Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p54: BH_Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
 			p55: BH_Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt
@@ -118,9 +118,9 @@ Ply1_de_from_FH_stroke = pcase{
 			p65: BH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_BH_stroke
 			p66: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p67: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p68: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p68: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p69: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p69: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	};
 
@@ -139,9 +139,9 @@ Ply1_de_from_BH_stroke = pcase{
 			p79: BH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_BH_stroke
 			p80: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p81: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p82: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p82: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p83: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p83: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	};
 
@@ -162,9 +162,9 @@ Ply1_deep_de_from_FH_stroke = pcase{
 			p93: BH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_BH_stroke
 			p94: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p95: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p96: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p96: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p97: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p97: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	};
 
@@ -181,9 +181,9 @@ Ply1_deep_de_from_BH_stroke = pcase{
 			p107: BH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_BH_stroke
 			p108: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p109: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p110: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p110: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p111: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p111: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	};
 
@@ -202,9 +202,9 @@ Ply1_mid_from_FH_stroke = pcase{
 			p121: BH_Crosscourt_Deep{ball=10} -> Ply2_deep_ad_from_BH_stroke
 			p122: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p123: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p124: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p124: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p125: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p125: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt    
 	};
 
@@ -221,9 +221,9 @@ Ply1_mid_from_BH_stroke = pcase{
 			p135: BH_Crosscourt_Deep{ball=10} -> Ply2_deep_ad_from_BH_stroke
 			p136: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p137: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p138: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p138: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p139: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p139: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt    
 	};
 
@@ -243,9 +243,9 @@ Ply1_deep_mid_from_FH_stroke = pcase{
 			p149: BH_Crosscourt_Deep{ball=10} -> Ply2_deep_ad_from_BH_stroke
 			p150: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p151: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p152: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p152: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p153: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p153: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt    
 	};
 
@@ -262,9 +262,9 @@ Ply1_deep_mid_from_BH_stroke = pcase{
 			p163: BH_Crosscourt_Deep{ball=10} -> Ply2_deep_ad_from_BH_stroke
 			p164: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p165: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p166: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p166: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p167: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p167: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt    
 	};
 	
@@ -284,9 +284,9 @@ Ply1_ad_from_FH_stroke = pcase{
 			p177: BH_Downline_Deep{ball=12} -> Ply2_deep_de_from_BH_stroke
 			p178: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p179: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p180: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p180: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p181: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p181: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	};
 
@@ -303,9 +303,9 @@ Ply1_ad_from_BH_stroke = pcase{
 			p191: BH_Downline_Deep{ball=12} -> Ply2_deep_de_from_BH_stroke
 			p192: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p193: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p194: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p194: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p195: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p195: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	};
 
@@ -324,9 +324,9 @@ Ply1_deep_ad_from_FH_stroke = pcase{
 			p205: BH_Downline_Deep{ball=12} -> Ply2_deep_de_from_BH_stroke
 			p206: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p207: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p208: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p208: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p209: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p209: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	};
 Ply1_deep_ad_from_BH_stroke = pcase{
@@ -342,9 +342,9 @@ Ply1_deep_ad_from_BH_stroke = pcase{
 			p219: BH_Downline_Deep{ball=12} -> Ply2_deep_de_from_BH_stroke
 			p220: BH_DownMid{ball=8} -> Ply2_mid_from_BH_stroke
 			p221: BH_DownMid_Deep{ball=11} -> Ply2_deep_mid_from_BH_stroke
-			p222: Winner{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p222: Winner{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p223: Error{ball=13} -> {dmscore++; if (dmscore == points) {won = player2}
+			p223: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2}
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	};
 
@@ -354,7 +354,7 @@ De_Ply2Serve = pcase {
 			p224: ServeT_in{ball=5} -> Ply1_BackHandR
 			p225: ServeBody_in{ball=4} -> (Ply1_ForeHandR [] Ply1_BackHandR)
 			p226: ServeWide_in{ball=4} -> Ply1_ForeHandR
-			p227: Serve_Winner{ball=13} -> NWinner{dmscore++; if (dmscore == points) {won = player2} 
+			p227: Serve_Winner{ball=13} -> NWinner{p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
 			p228: Serve_err{ball=13} -> De_Ply2Serve_2nd}; 
 
@@ -362,9 +362,9 @@ De_Ply2Serve_2nd = pcase {                 //1st serve is out
 			p229: ServeT_in{ball=5} -> Ply1_BackHandR
 			p230: ServeBody_in{ball=4} -> (Ply1_ForeHandR [] Ply1_BackHandR)
 			p231: ServeWide_in{ball=4} -> Ply1_ForeHandR
-			p232: Serve_Winner{ball=13} -> NWinner{dmscore++; if (dmscore == points) {won = player2} 
+			p232: Serve_Winner{ball=13} -> NWinner{p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p233: Serve_err{ball=13} -> Ndoublefault{ndscore++; if (ndscore == points) {won = player1} 
+			p233: Serve_err{ball=13} -> Ndoublefault{p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
      		 };
      		 
@@ -374,7 +374,7 @@ Ad_Ply2Serve = pcase {
 			p234: ServeT_in{ball=5} -> Ply1_ForeHandR
 			p235: ServeBody_in{ball=6} -> (Ply1_ForeHandR [] Ply1_BackHandR)
 			p236: ServeWide_in{ball=6} -> Ply1_BackHandR
-			p237: Serve_Winner{ball=13} -> NWinner{dmscore++; if (dmscore == points) {won = player2} 
+			p237: Serve_Winner{ball=13} -> NWinner{p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
 			p238: Serve_err{ball=13} -> Ad_Ply2Serve_2nd}; 
 
@@ -382,9 +382,9 @@ Ad_Ply2Serve_2nd = pcase {                 //1st serve is out
 			p239: ServeT_in{ball=5} -> Ply1_ForeHandR
 			p240: ServeBody_in{ball=6} -> (Ply1_ForeHandR [] Ply1_BackHandR)
 			p241: ServeWide_in{ball=6} -> Ply1_BackHandR
-			p242: Serve_Winner{ball=13} -> NWinner{dmscore++; if (dmscore == points) {won = player2} 
+			p242: Serve_Winner{ball=13} -> NWinner{p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p243: Serve_err{ball=13} -> Ndoublefault{ndscore++; if (ndscore == points) {won = player1} 
+			p243: Serve_err{ball=13} -> Ndoublefault{p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
      		 };
      		 
@@ -396,9 +396,9 @@ Ply2_ForeHandR = ifa (turn == p1_de_ct) {    // Player2 forehand return to Playe
 			p247: FH_DownLine_Deep {ball=6} -> Ply1_deep_ad_from_FH_stroke
 			p248: FH_DownMid{ball=2} -> Ply1_mid_from_FH_stroke
 			p249: FH_DownMid_Deep{ball=5} -> Ply1_deep_mid_from_FH_stroke
-			p250: FH_Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p250: FH_Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p251: FH_Error{ ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p251: FH_Error{ ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
       		 }}
       		 else { // Player2 forehand return to Player1 serve from the ad court
@@ -411,9 +411,9 @@ Ply2_ForeHandR = ifa (turn == p1_de_ct) {    // Player2 forehand return to Playe
 			p257: FH_CrossCourt_Deep{ball=4} -> Ply1_deep_de_from_FH_stroke
 			p258: FH_DownMid{ ball=2} -> Ply1_mid_from_FH_stroke
 			p259: FH_DownMid_Deep{ ball=5} -> Ply1_deep_mid_from_FH_stroke
-			p260: FH_Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p260: FH_Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p261: FH_Error{ ball = 13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p261: FH_Error{ ball = 13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
       		 }};
       		 
@@ -427,9 +427,9 @@ Ply2_BackHandR = ifa (turn == p1_de_ct) {    // Player2 backhand return to Playe
 			p267: BH_InsideOut_Deep{ball=4} -> Ply1_deep_de_from_BH_stroke
 			p268: BH_DownMid{ ball=2} -> Ply1_mid_from_BH_stroke
 			p269: BH_DownMid_Deep{ ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p270: BH_Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p270: BH_Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p271: BH_Error{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p271: BH_Error{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
       		 }}
       		 else {
@@ -440,9 +440,9 @@ Ply2_BackHandR = ifa (turn == p1_de_ct) {    // Player2 backhand return to Playe
 			p275: BH_DownLine_Deep{ball=4} -> Ply1_deep_de_from_BH_stroke
 			p276: BH_DownMid{ball=2} -> Ply1_mid_from_BH_stroke
 			p277: BH_DownMid_Deep{ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p278: BH_Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p278: BH_Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p279: BH_Error{ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p279: BH_Error{ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt			
       		 }};
 
@@ -460,9 +460,9 @@ Ply2_de_from_FH_stroke = pcase { // if already
 			p289: BH_InsideOut_Deep {ball=4} -> Ply1_deep_de_from_BH_stroke
 			p290: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
 			p291: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p292: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p292: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p293: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p293: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};
 
@@ -480,9 +480,9 @@ Ply2_de_from_BH_stroke = pcase { // if already
 			p303: BH_InsideOut_Deep {ball=4} -> Ply1_deep_de_from_BH_stroke
 			p304: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
 			p305: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p306: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p306: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p307: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p307: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};
 
@@ -502,9 +502,9 @@ Ply2_deep_de_from_FH_stroke = pcase { // if already
 			p317: BH_InsideOut_Deep {ball=4} -> Ply1_deep_de_from_BH_stroke
 			p318: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
 			p319: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p320: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p320: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p321: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p321: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};
 
@@ -521,9 +521,9 @@ Ply2_deep_de_from_BH_stroke = pcase { // if already
 			p331: BH_InsideOut_Deep {ball=4} -> Ply1_deep_de_from_BH_stroke
 			p332: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
 			p333: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p334: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p334: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p335: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p335: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};
 
@@ -542,9 +542,9 @@ Ply2_mid_from_FH_stroke = noMove -> pcase{
 			p345: BH_Crosscourt_Deep {ball=6} -> Ply1_deep_ad_from_BH_stroke
 			p346: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
 			p347: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p348: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p348: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p349: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p349: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};
 
@@ -561,9 +561,9 @@ Ply2_mid_from_BH_stroke = noMove -> pcase{
     p359: BH_Crosscourt_Deep {ball=6} -> Ply1_deep_ad_from_BH_stroke
     p360: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
     p361: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-    p362: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+    p362: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
                                                               else { turn = (turn+1)%4} }-> NextPt
-    p363: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+    p363: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
                                                               else { turn = (turn+1)%4} }-> NextPt 
 };
 
@@ -583,9 +583,9 @@ Ply2_deep_mid_from_FH_stroke = noMove -> pcase{
     p373: BH_Crosscourt_Deep {ball=6} -> Ply1_deep_ad_from_BH_stroke
     p374: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
     p375: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-    p376: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+    p376: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
                                                               else { turn = (turn+1)%4} }-> NextPt
-    p377: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+    p377: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
                                                               else { turn = (turn+1)%4} }-> NextPt 
 };
 Ply2_deep_mid_from_BH_stroke = noMove -> pcase{
@@ -601,9 +601,9 @@ Ply2_deep_mid_from_BH_stroke = noMove -> pcase{
     p387: BH_Crosscourt_Deep {ball=6} -> Ply1_deep_ad_from_BH_stroke
     p388: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
     p389: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-    p390: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+    p390: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
                                                               else { turn = (turn+1)%4} }-> NextPt
-    p391: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+    p391: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
                                                               else { turn = (turn+1)%4} }-> NextPt 
 };
 
@@ -621,9 +621,9 @@ Ply2_ad_from_FH_stroke = pcase{
 			p401: BH_Downline_Deep {ball=4} -> Ply1_deep_de_from_BH_stroke
 			p402: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
 			p403: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p404: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p404: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p405: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p405: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};    		
 Ply2_ad_from_BH_stroke = pcase{
@@ -639,9 +639,9 @@ Ply2_ad_from_BH_stroke = pcase{
 			p415: BH_Downline_Deep {ball=4} -> Ply1_deep_de_from_BH_stroke
 			p416: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
 			p417: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p418: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p418: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p419: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p419: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};    		
 
@@ -661,9 +661,9 @@ Ply2_deep_ad_from_FH_stroke = pcase{
 			p429: BH_Downline_Deep {ball=4} -> Ply1_deep_de_from_BH_stroke
 			p430: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
 			p431: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p432: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p432: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p433: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p433: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};    		 
 Ply2_deep_ad_from_BH_stroke = pcase{
@@ -679,9 +679,9 @@ Ply2_deep_ad_from_BH_stroke = pcase{
 			p443: BH_Downline_Deep {ball=4} -> Ply1_deep_de_from_BH_stroke
 			p444: BH_DownMid {ball=2} -> Ply1_mid_from_BH_stroke
 			p445: BH_DownMid_Deep {ball=5} -> Ply1_deep_mid_from_BH_stroke
-			p446: Winner{ball=13} -> {dmscore++; if (dmscore == points) {won = player2} 
+			p446: Winner{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt
-			p447: Error {ball=13} -> {ndscore++; if (ndscore == points) {won = player1} 
+			p447: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt 
 	};    		 
              
