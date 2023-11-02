@@ -133,14 +133,14 @@ def get_params(df, hand):
     ad_from_deep_from_BH
     '''
     Strokes = [
-        Stroke.query(f'{depth} and {hand}')
+        Stroke.query(f'{depth} and {shot}')
         for Stroke in [De_Stroke, Mid_Stroke, Ad_Stroke] # Location stroke is being taken from
         for depth in ['prev_shot_depth in [1,99]', 'prev_shot_depth in [2,3]'] # ball came from shallow, from deep
-        # for hand in ['prev_shot<=20', 'prev_shot<=40 and prev_shot>20'] # ball came from forehand, from backhand
+        for shot in ['prev_shot<=20', 'prev_shot<=40 and prev_shot>20'] # ball came from forehand, from backhand
     ]
 
     for i, Stroke in enumerate(Strokes):
-        directionIndex = i // 2
+        directionIndex = i // 4
         FH_Stroke = Stroke.query('shot<=20')
         BH_Stroke = Stroke.query('shot<=40 and shot>20')
         FH_shots = [FH_Stroke.query('to_which_court==@to_dir and depth in @depth')  
@@ -175,10 +175,17 @@ def generate_transition_probs(data, date, ply1_name, ply2_name):
     # sample
     params = sum(ply1_params, []) + sum(ply2_params, [])
 
+<<<<<<< HEAD
     print(f'{date} - {ply1_name} : {ply2_name}')
     print(f'  {len(data_ply1.date.unique())} match')
+=======
+    print('# P1 matches:', num_ply1_prev_n)
+    print('# P2 matches:', num_ply2_prev_n)
 
-    # generate_pcsp(params, date, ply1_name, ply2_name, ply1_hand, ply2_hand)
+    print(f'{len(params)} probabilities generated')
+>>>>>>> fe92709 (Fix bugs)
+
+    generate_pcsp(params, date, ply1_name, ply2_name, ply1_hand, ply2_hand)
 
 # obtain shot-by-shot data
 file = 'output-test.csv'
