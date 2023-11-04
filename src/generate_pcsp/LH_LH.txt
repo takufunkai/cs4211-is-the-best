@@ -44,8 +44,8 @@ Ad_Ply1Serve_2nd = pcase {                 //1st serve is out
      		  
 Ply1_ForeHandR = ifa (turn == p2_de_ct) {    // Player 1 forehand return to Player 2's serve from the deuce court side 
 		 pcase { 
-			p20: FH_InsideOut_Deep{ball=12} -> Ply2_deep_de_stroke
-			p21: FH_InsideOut{ball=9} -> Ply2_de_stroke
+			p20: FH_InsideOut{ball=9} -> Ply2_de_stroke
+			p21: FH_InsideOut_Deep{ball=12} -> Ply2_deep_de_stroke
 			p22: FH_InsideIn{ball=7} -> Ply2_ad_stroke
 			p23: FH_InsideIn_Deep{ball=10} -> Ply2_deep_ad_stroke 
 			p24: FH_CrossCourt{ball=7} -> Ply2_ad_stroke
