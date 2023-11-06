@@ -163,16 +163,13 @@ def get_params(df, hand):
     return results
 
 
-def generate_transition_probs(data, date, ply1_name, ply2_name, ply1_hand, ply2_hand):
-    print('generating transition probabilities')
-    prev_date = (pd.to_datetime(date) - relativedelta(years=2)).strftime('%Y-%m-%d')
+def generate_transition_probs(data, ply1_name, ply2_name):
+    data_ply1 = data.query('ply1_name==@ply1_name and ply2_name==@ply2_name')
+    data_ply2 = data.query('ply1_name==@ply2_name and ply2_name==@ply1_name')
 
-    data_ply1 = data.query('date>=@prev_date and date<@date and ply1_name==@ply1_name and ply2_name==@ply2_name')
-    data_ply2 = data.query('date>=@prev_date and date<@date and ply1_name==@ply2_name and ply2_name==@ply1_name')
-
-    # number of matches played
-    num_ply1_prev_n = len(data_ply1.date.unique())
-    num_ply2_prev_n = len(data_ply2.date.unique())
+    date = data_ply1['date'].iloc[0]
+    ply1_hand = data_ply1['ply1_hand'].iloc[0]
+    ply2_hand = data_ply1['ply2_hand'].iloc[0]
 
     # get players params
     ply1_params = get_params(data_ply1, ply1_hand)
@@ -180,25 +177,15 @@ def generate_transition_probs(data, date, ply1_name, ply2_name, ply1_hand, ply2_
 
     # sample
     params = sum(ply1_params, []) + sum(ply2_params, [])
-
-    print('# P1 matches:', num_ply1_prev_n)
-    print('# P2 matches:', num_ply2_prev_n)
-
-    print(len(params))
+    
+    print(f'{date} - {ply1_name} : {ply2_name}')
+    print(f'  {len(data_ply1.date.unique())} match')
 
     generate_pcsp(params, date, ply1_name, ply2_name, ply1_hand, ply2_hand)
 
-
-date = '2021-02-21'
-ply1_name = 'Novak Djokovic'
-ply2_name = 'Daniil Medvedev'
-ply1_hand = 'RH'
-ply2_hand = 'RH'
-gender = 'M'
-
 # obtain shot-by-shot data
 file = 'output-test.csv'
-print('reading csv')
+print('Reading CSV')
 data = pd.read_csv(file, names=['ply1_name', 'ply2_name', 'ply1_hand', 'ply2_hand', 'ply1_points',
                                 'ply2_points', 'ply1_games', 'ply2_games', 'ply1_sets', 'ply2_sets', 'date',
                                 'tournament_name', 'shot_type', 'from_which_court', 'shot', 'direction',
@@ -212,5 +199,14 @@ data = pd.read_csv(file, names=['ply1_name', 'ply2_name', 'ply1_hand', 'ply2_han
                                 'prev_prev_shot_touched_net', 'prev_prev_shot_hit_at_depth',
                                 'prev_prev_shot_approach_shot', 'prev_prev_shot_outcome',
                                 'prev_prev_shot_fault_type', 'url', 'description'])
-print('read done')
-generate_transition_probs(data, date, ply1_name, ply2_name, ply1_hand, ply2_hand)
+
+# End date of data to process
+date = '2018-12-31'
+prev_date = (pd.to_datetime(date) - relativedelta(years=1)).strftime('%Y-%m-%d')
+
+# Filter data within dates and get all unique player pairs
+filtered_data = data.query('date>@prev_date and date<=@date')
+player_pairs = set(tuple(sorted(t)) for t in zip(filtered_data['ply1_name'], filtered_data['ply2_name']))
+
+for ply1_name, ply2_name in player_pairs:
+    generate_transition_probs(filtered_data, ply1_name, ply2_name)
