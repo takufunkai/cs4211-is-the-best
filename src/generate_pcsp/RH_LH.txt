@@ -61,7 +61,7 @@ Ply1_ForeHandR = ifa (turn == p2_de_ct) {    // Player2 forehand return to Playe
 			p29: FH_InsideOut_Deep{ball=10} -> Ply2_deep_ad_stroke
 			p30: FH_InsideIn{ball=9} -> Ply2_de_stroke
 			p31: FH_InsideIn_Deep{ball=12} -> Ply2_deep_de_stroke
-			p32: FH_CrossCourt{ball=9} -> Ply2__de_stroke
+			p32: FH_CrossCourt{ball=9} -> Ply2_de_stroke
 			p33: FH_CrossCourt_Deep{ball=12} -> Ply2_deep_de_stroke
 			p34: FH_DownMid{ball=8} -> Ply2_mid_stroke
 			p35: FH_DownMid_Deep{ball=11} -> Ply2_deep_mid_stroke

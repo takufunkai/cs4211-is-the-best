@@ -19,8 +19,8 @@ def generate_pcsp(params, date, ply1_name, ply2_name, hand1, hand2):
     HAND = '%s_%s.txt' % (hand1, hand2)
     PATH_TO_MODELS = '../models/'
 
-    file_name = '%s_%s_%s.pcsp' % (date, ply1_name.replace(' ', '-'), ply2_name.replace(' ', '-'))
-    file_name += '%s_%s_' % (hand1, hand2)
+    file_name = '%s_%s_%s_' % (date, ply1_name.replace(' ', '-'), ply2_name.replace(' ', '-'))
+    file_name += '%s-%s.pcsp' % (hand1, hand2)
     file_name = os.path.join(PATH_TO_MODELS, file_name)
     # write to file
     lines = []
