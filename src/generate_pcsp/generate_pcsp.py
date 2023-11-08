@@ -175,15 +175,8 @@ def generate_transition_probs(data, date, ply1_name, ply2_name):
     # sample
     params = sum(ply1_params, []) + sum(ply2_params, [])
 
-<<<<<<< HEAD
     print(f'{date} - {ply1_name} : {ply2_name}')
     print(f'  {len(data_ply1.date.unique())} match')
-=======
-    print('# P1 matches:', num_ply1_prev_n)
-    print('# P2 matches:', num_ply2_prev_n)
-
-    print(f'{len(params)} probabilities generated')
->>>>>>> fe92709 (Fix bugs)
 
     generate_pcsp(params, date, ply1_name, ply2_name, ply1_hand, ply2_hand)
 
