@@ -16,11 +16,11 @@ warnings.simplefilter("ignore")
 # generate pcsp file
 def generate_pcsp(params, date, ply1_name, ply2_name, hand1, hand2):
     VAR = 'var.txt'
-    HAND = '%s_%s_subdivided.txt' % (hand1, hand2)
+    HAND = '%s_%s.txt' % (hand1, hand2)
     PATH_TO_MODELS = '../models/'
 
-    file_name = '%s_%s_' % (hand1, hand2)
-    file_name += '%s_%s_%s.pcsp' % (date, ply1_name.replace(' ', '-'), ply2_name.replace(' ', '-'))
+    file_name = '%s_%s_%s_' % (date, ply1_name.replace(' ', '-'), ply2_name.replace(' ', '-'))
+    file_name += '%s-%s.pcsp' % (hand1, hand2)
     file_name = os.path.join(PATH_TO_MODELS, file_name)
     # write to file
     lines = []
@@ -163,11 +163,10 @@ def get_params(df, hand):
     return results
 
 
-def generate_transition_probs(data, ply1_name, ply2_name):
+def generate_transition_probs(data, date, ply1_name, ply2_name):
     data_ply1 = data.query('ply1_name==@ply1_name and ply2_name==@ply2_name')
     data_ply2 = data.query('ply1_name==@ply2_name and ply2_name==@ply1_name')
 
-    date = data_ply1['date'].iloc[0]
     ply1_hand = data_ply1['ply1_hand'].iloc[0]
     ply2_hand = data_ply1['ply2_hand'].iloc[0]
 
@@ -177,7 +176,7 @@ def generate_transition_probs(data, ply1_name, ply2_name):
 
     # sample
     params = sum(ply1_params, []) + sum(ply2_params, [])
-    
+
     print(f'{date} - {ply1_name} : {ply2_name}')
     print(f'  {len(data_ply1.date.unique())} match')
 
@@ -206,7 +205,8 @@ prev_date = (pd.to_datetime(date) - relativedelta(years=1)).strftime('%Y-%m-%d')
 
 # Filter data within dates and get all unique player pairs
 filtered_data = data.query('date>@prev_date and date<=@date')
-player_pairs = set(tuple(sorted(t)) for t in zip(filtered_data['ply1_name'], filtered_data['ply2_name']))
+player_pairs = set(tuple(sorted(t)) for t in zip(filtered_data['date'],
+                                                 filtered_data['ply1_name'], filtered_data['ply2_name']))
 
-for ply1_name, ply2_name in player_pairs:
-    generate_transition_probs(filtered_data, ply1_name, ply2_name)
+for date, ply1_name, ply2_name in player_pairs:
+    generate_transition_probs(filtered_data, date, ply1_name, ply2_name)
