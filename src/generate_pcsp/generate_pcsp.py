@@ -60,21 +60,13 @@ def get_params(df, hand):
     De_Serve_2nd = df.query('shot_type==2 and from_which_court==1') # 2nd serve, deuce
     Ad_Serve = df.query('shot_type==1 and from_which_court==3') # 1st serve, ad
     Ad_Serve_2nd = df.query('shot_type==2 and from_which_court==3') # 2nd serve, ad
+
     # Return
-
-    # # Ezekiel: This is how we might model specific shots
-    # De_ForeHandR_slice = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 3')
-    # De_ForeHandR_volley = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 5')
-    # De_ForeHandR_smash = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 7')
-    # De_ForeHandR_dropshot = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 9')
-    # De_ForeHandR_lob = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot === 11')
-    # # TODO:... Include more shot types
-
-    # This is the original way of modelling shots
     De_ForeHandR = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot<=20')  # return shot, deuce, forehand
     Ad_ForeHandR = df.query('shot_type==3 and prev_shot_from_which_court==3 and shot<=20') # return shot, ad, forehand
     De_BackHandR = df.query('shot_type==3 and prev_shot_from_which_court==1 and shot<=40 and shot>20') # return shot, deuce, backhand
     Ad_BackHandR = df.query('shot_type==3 and prev_shot_from_which_court==3 and shot<=40 and shot>20') # return shot, ad, backhand
+
     # Rally Stroke
     De_Stroke = df.query('shot_type==4 and from_which_court==1')
     Mid_Stroke = df.query('shot_type==4 and from_which_court==2')
@@ -129,20 +121,26 @@ def get_params(df, hand):
                       [[1, 3, 2], [3, 1, 2]],  # mid - FHIO, FHCC, FHDM, BHIO, BHCC, BHDM
                       [[3, 1, 2], [1, 3, 2]]]  # ad - FHCC, FHDL, FHDM, BHII, BHIO, BHDM
         
-    # This query checks whether we are taking the stroke from deep or not
-    # (!!) Nothing to do with the depth of current shot, this is done in the for-depth-loop
-    Shallow_De_Stroke = De_Stroke.query('prev_shot_depth in [1, 99]') # shallow, unknown
-    Deep_De_Stroke = De_Stroke.query('prev_shot_depth in [2, 3]') # deep, very deep
-    Shallow_Mid_Stroke = Mid_Stroke.query('prev_shot_depth in [1, 99]') # shallow, unknown
-    Deep_Mid_Stroke = Mid_Stroke.query('prev_shot_depth in [2, 3]') # deep, very deep
-    Shallow_Ad_Stroke = Ad_Stroke.query('prev_shot_depth in [1, 99]') # shallow, unknown
-    Deep_Ad_Stroke = Ad_Stroke.query('prev_shot_depth in [2, 3]') # deep, very deep
-
-    Strokes = [Shallow_De_Stroke, Deep_De_Stroke, Shallow_Mid_Stroke, 
-               Deep_Mid_Stroke, Shallow_Ad_Stroke, Deep_Ad_Stroke]
+    # Build strokes
+    '''
+    Output:
+    de_from_FH
+    de_from_BH
+    de_from_deep_from_FH
+    de_from_deep_from_BH
+    mid_from_FH
+    ......
+    ad_from_deep_from_BH
+    '''
+    Strokes = [
+        Stroke.query(f'{depth} and {shot}')
+        for Stroke in [De_Stroke, Mid_Stroke, Ad_Stroke] # Location stroke is being taken from
+        for depth in ['prev_shot_depth in [1,99]', 'prev_shot_depth in [2,3]'] # ball came from shallow, from deep
+        for shot in ['prev_shot<=20', 'prev_shot<=40 and prev_shot>20'] # ball came from forehand, from backhand
+    ]
 
     for i, Stroke in enumerate(Strokes):
-        directionIndex = i // 2
+        directionIndex = i // 4
         FH_Stroke = Stroke.query('shot<=20')
         BH_Stroke = Stroke.query('shot<=40 and shot>20')
         FH_shots = [FH_Stroke.query('to_which_court==@to_dir and depth in @depth')  
@@ -177,8 +175,15 @@ def generate_transition_probs(data, date, ply1_name, ply2_name):
     # sample
     params = sum(ply1_params, []) + sum(ply2_params, [])
 
+<<<<<<< HEAD
     print(f'{date} - {ply1_name} : {ply2_name}')
     print(f'  {len(data_ply1.date.unique())} match')
+=======
+    print('# P1 matches:', num_ply1_prev_n)
+    print('# P2 matches:', num_ply2_prev_n)
+
+    print(f'{len(params)} probabilities generated')
+>>>>>>> fe92709 (Fix bugs)
 
     generate_pcsp(params, date, ply1_name, ply2_name, ply1_hand, ply2_hand)
 
@@ -203,10 +208,11 @@ data = pd.read_csv(file, names=['ply1_name', 'ply2_name', 'ply1_hand', 'ply2_han
 date = '2018-12-31'
 prev_date = (pd.to_datetime(date) - relativedelta(years=1)).strftime('%Y-%m-%d')
 
-# Filter data within dates and get all unique player pairs
+# 1. Get list of possible match-ups (unique combinations of date, ply1_name and ply2_name)
 filtered_data = data.query('date>@prev_date and date<=@date')
 player_pairs = set(tuple(sorted(t)) for t in zip(filtered_data['date'],
                                                  filtered_data['ply1_name'], filtered_data['ply2_name']))
 
+# 2. For each match-up, generate pcsp file
 for date, ply1_name, ply2_name in player_pairs:
     generate_transition_probs(filtered_data, date, ply1_name, ply2_name)
