@@ -101,7 +101,7 @@ Ply1_BackHandR = ifa (turn == p2_de_ct) {    // Player 1 backhand return to Play
       		 }}; 
  
 // deuce stroke is when player1 hit position is 1 
-Ply1_de_stroke_from_FH = pcase{ 
+Ply1_de_from_FH_stroke = pcase{ 
 			p56: FH_InsideOut{ball=9} -> Ply2_de_from_FH_stroke
 			p57: FH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_FH_stroke
 			p58: FH_InsideIn{ball=7} -> Ply2_ad_from_FH_stroke
@@ -120,7 +120,7 @@ Ply1_de_stroke_from_FH = pcase{
       		                                                     else { turn = (turn+1)%4} }-> NextPt   
 	}; 
 
-Ply1_de_stroke_from_BH = pcase{ 
+Ply1_de_from_BH_stroke = pcase{ 
     p70: FH_InsideOut{ball=9} -> Ply2_de_from_FH_stroke
     p71: FH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_FH_stroke
     p72: FH_InsideIn{ball=7} -> Ply2_ad_from_FH_stroke
@@ -141,7 +141,7 @@ Ply1_de_stroke_from_BH = pcase{
 
 // player 1, deuce deep, court 1
 // deuce stroke is when player1 hit position is 1 
-Ply1_deep_de_stroke_from_FH = pcase{ 
+Ply1_deep_de_from_FH_stroke = pcase{ 
 			p84: FH_InsideOut{ball=9} -> Ply2_de_from_FH_stroke
 			p85: FH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_FH_stroke
 			p86: FH_InsideIn{ball=7} -> Ply2_ad_from_FH_stroke
@@ -160,7 +160,7 @@ Ply1_deep_de_stroke_from_FH = pcase{
       		                                                     else { turn = (turn+1)%4} }-> NextPt   
 	}; 
 
-Ply1_deep_de_stroke_from_BH = pcase{ 
+Ply1_deep_de_from_BH_stroke = pcase{ 
 			p98: FH_InsideOut{ball=9} -> Ply2_de_from_FH_stroke
 			p99: FH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_FH_stroke
 			p100: FH_InsideIn{ball=7} -> Ply2_ad_from_FH_stroke
@@ -180,7 +180,7 @@ Ply1_deep_de_stroke_from_BH = pcase{
 	}; 
 	 
 // mid stroke is when player1 hit position is 2 
-Ply1_mid_stroke_from_FH = pcase{ 
+Ply1_mid_from_FH_stroke = pcase{ 
 			p112: FH_InsideOut{ball=9} -> Ply2_de_from_FH_stroke
 			p113: FH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_FH_stroke
 			p114: FH_Crosscourt{ball=7} -> Ply2_ad_from_FH_stroke
@@ -199,7 +199,7 @@ Ply1_mid_stroke_from_FH = pcase{
       		                                                     else { turn = (turn+1)%4} }-> NextPt     
 	}; 
 
-Ply1_mid_stroke_from_BH = pcase{ 
+Ply1_mid_from_BH_stroke = pcase{ 
 			p126: FH_InsideOut{ball=9} -> Ply2_de_from_FH_stroke
 			p127: FH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_FH_stroke
 			p128: FH_Crosscourt{ball=7} -> Ply2_ad_from_FH_stroke
@@ -220,7 +220,7 @@ Ply1_mid_stroke_from_BH = pcase{
 
 // player 1, mid deep, court 2
 // mid stroke is when player1 hit position is 2 
-Ply1_deep_mid_stroke_from_FH = pcase{ 
+Ply1_deep_mid_from_FH_stroke = pcase{ 
 			p140: FH_InsideOut{ball=9} -> Ply2_de_from_FH_stroke
 			p141: FH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_FH_stroke
 			p142: FH_Crosscourt{ball=7} -> Ply2_ad_from_FH_stroke
@@ -238,7 +238,7 @@ Ply1_deep_mid_stroke_from_FH = pcase{
 			p153: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt     
 	}; 
-Ply1_deep_mid_stroke_from_BH = pcase{ 
+Ply1_deep_mid_from_BH_stroke = pcase{ 
 			p154: FH_InsideOut{ball=9} -> Ply2_de_from_FH_stroke
 			p155: FH_InsideOut_Deep{ball=12} -> Ply2_deep_de_from_FH_stroke
 			p156: FH_Crosscourt{ball=7} -> Ply2_ad_from_FH_stroke
@@ -259,7 +259,7 @@ Ply1_deep_mid_stroke_from_BH = pcase{
 
 
 // ad stroke is when player1 hit position is 3 
-Ply1_ad_stroke_from_FH = pcase{ 
+Ply1_ad_from_FH_stroke = pcase{ 
 			p168: FH_Crosscourt{ball=7} -> Ply2_ad_from_FH_stroke
 			p169: FH_Crosscourt_Deep{ball=10} -> Ply2_deep_ad_from_FH_stroke
 			p170: FH_Downline{ball=9} -> Ply2_de_from_FH_stroke
@@ -277,7 +277,7 @@ Ply1_ad_stroke_from_FH = pcase{
 			p181: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt   
 	}; 
-Ply1_ad_stroke_from_BH = pcase{ 
+Ply1_ad_from_BH_stroke = pcase{ 
 			p182: FH_Crosscourt{ball=7} -> Ply2_ad_from_FH_stroke
 			p183: FH_Crosscourt_Deep{ball=10} -> Ply2_deep_ad_from_FH_stroke
 			p184: FH_Downline{ball=9} -> Ply2_de_from_FH_stroke
@@ -298,7 +298,7 @@ Ply1_ad_stroke_from_BH = pcase{
 
 // player 1, ad deep, court 3
 // ad stroke is when player1 hit position is 3 
-Ply1_deep_ad_stroke_from_FH = pcase{ 
+Ply1_deep_ad_from_FH_stroke = pcase{ 
 			p196: FH_Crosscourt{ball=7} -> Ply2_ad_from_FH_stroke
 			p197: FH_Crosscourt_Deep{ball=10} -> Ply2_deep_ad_from_FH_stroke
 			p198: FH_Downline{ball=9} -> Ply2_de_from_FH_stroke
@@ -316,7 +316,7 @@ Ply1_deep_ad_stroke_from_FH = pcase{
 			p209: Error{ball=13} -> {p2score++; if (p2score == points) {won = player2} 
       		                                                     else { turn = (turn+1)%4} }-> NextPt   
 	}; 
-Ply1_deep_ad_stroke_from_BH = pcase{ 
+Ply1_deep_ad_from_BH_stroke = pcase{ 
 			p210: FH_Crosscourt{ball=7} -> Ply2_ad_from_FH_stroke
 			p211: FH_Crosscourt_Deep{ball=10} -> Ply2_deep_ad_from_FH_stroke
 			p212: FH_Downline{ball=9} -> Ply2_de_from_FH_stroke
@@ -434,7 +434,7 @@ Ply2_BackHandR = ifa (turn == p1_de_ct) {    // Player2 backhand return to Playe
  
 
 // deuce stroke is when player2 hit position is 12 
-Ply2_de_stroke_from_FH = pcase { // if already  
+Ply2_de_from_FH_stroke = pcase { // if already  
 			p280: FH_InsideOut {ball = 4} -> Ply1_de_from_FH_stroke
 			p281: FH_InsideOut_Deep {ball = 1} -> Ply1_deep_de_from_FH_stroke
 			p282: FH_insideIn {ball = 6} -> Ply1_ad_from_FH_stroke
@@ -452,7 +452,7 @@ Ply2_de_stroke_from_FH = pcase { // if already
 			p293: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1}  
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	}; 
-Ply2_de_stroke_from_BH = pcase { // if already  
+Ply2_de_from_BH_stroke = pcase { // if already  
 			p294: FH_InsideOut {ball = 4} -> Ply1_de_from_FH_stroke
 			p295: FH_InsideOut_Deep {ball = 1} -> Ply1_deep_de_from_FH_stroke
 			p296: FH_insideIn {ball = 6} -> Ply1_ad_from_FH_stroke
@@ -473,7 +473,7 @@ Ply2_de_stroke_from_BH = pcase { // if already
 
 // player 2, de deep, court 12
 // deuce stroke is when player2 hit position is 12
-Ply2_deep_de_stroke_from_FH = pcase { // if already  
+Ply2_deep_de_from_FH_stroke = pcase { // if already  
 			p308: FH_InsideOut {ball = 4} -> Ply1_de_from_FH_stroke
 			p309: FH_InsideOut_Deep {ball = 1} -> Ply1_deep_de_from_FH_stroke
 			p310: FH_insideIn {ball = 6} -> Ply1_ad_from_FH_stroke
@@ -491,7 +491,7 @@ Ply2_deep_de_stroke_from_FH = pcase { // if already
 			p321: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1}  
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	}; 
-Ply2_deep_de_stroke_from_BH = pcase { // if already  
+Ply2_deep_de_from_BH_stroke = pcase { // if already  
 			p322: FH_InsideOut {ball = 4} -> Ply1_de_from_FH_stroke
 			p323: FH_InsideOut_Deep {ball = 1} -> Ply1_deep_de_from_FH_stroke
 			p324: FH_insideIn {ball = 6} -> Ply1_ad_from_FH_stroke
@@ -511,7 +511,7 @@ Ply2_deep_de_stroke_from_BH = pcase { // if already
 	}; 
  
 // mid stroke is when player2 hit position is 11 
-Ply2_mid_stroke_from_FH = noMove -> pcase{ 
+Ply2_mid_from_FH_stroke = noMove -> pcase{ 
 			p336: FH_InsideOut {ball = 4} -> Ply1_de_from_FH_stroke
 			p337: FH_InsideOut_Deep {ball = 1} -> Ply1_deep_de_from_FH_stroke
 			p338: FH_Crosscourt{ball = 6} -> Ply1_ad_from_FH_stroke
@@ -529,7 +529,7 @@ Ply2_mid_stroke_from_FH = noMove -> pcase{
 			p349: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1}  
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	}; 
-Ply2_mid_stroke_from_BH = noMove -> pcase{ 
+Ply2_mid_from_BH_stroke = noMove -> pcase{ 
 			p350: FH_InsideOut {ball = 4} -> Ply1_de_from_FH_stroke
 			p351: FH_InsideOut_Deep {ball = 1} -> Ply1_deep_de_from_FH_stroke
 			p352: FH_Crosscourt{ball = 6} -> Ply1_ad_from_FH_stroke
@@ -550,7 +550,7 @@ Ply2_mid_stroke_from_BH = noMove -> pcase{
 
 // player 2, mid deep, court 11
 // mid stroke is when player2 hit position is 11 
-Ply2_deep_mid_stroke_from_FH = noMove -> pcase{ 
+Ply2_deep_mid_from_FH_stroke = noMove -> pcase{ 
 			p364: FH_InsideOut {ball = 4} -> Ply1_de_from_FH_stroke
 			p365: FH_InsideOut_Deep {ball = 1} -> Ply1_deep_de_from_FH_stroke
 			p366: FH_Crosscourt{ball = 6} -> Ply1_ad_from_FH_stroke
@@ -568,7 +568,7 @@ Ply2_deep_mid_stroke_from_FH = noMove -> pcase{
 			p377: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1}  
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	}; 
-Ply2_deep_mid_stroke_from_BH = noMove -> pcase{ 
+Ply2_deep_mid_from_BH_stroke = noMove -> pcase{ 
 			p378: FH_InsideOut {ball = 4} -> Ply1_de_from_FH_stroke
 			p379: FH_InsideOut_Deep {ball = 1} -> Ply1_deep_de_from_FH_stroke
 			p380: FH_Crosscourt{ball = 6} -> Ply1_ad_from_FH_stroke
@@ -588,7 +588,7 @@ Ply2_deep_mid_stroke_from_BH = noMove -> pcase{
 	}; 
  
 // ad stroke is when player 2 hit position is 10 
-Ply2_ad_stroke_from_FH = pcase{ 
+Ply2_ad_from_FH_stroke = pcase{ 
 			p392: FH_Crosscourt {ball = 6} -> Ply1_ad_from_FH_stroke
 			p393: FH_Crosscourt_Deep {ball = 3} -> Ply1_deep_ad_from_FH_stroke
 			p394: FH_Downline {ball = 4} -> Ply1_de_from_FH_stroke
@@ -606,7 +606,7 @@ Ply2_ad_stroke_from_FH = pcase{
 			p405: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1}  
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	};    		 
-Ply2_ad_stroke_from_BH = pcase{ 
+Ply2_ad_from_BH_stroke = pcase{ 
 			p406: FH_Crosscourt {ball = 6} -> Ply1_ad_from_FH_stroke
 			p407: FH_Crosscourt_Deep {ball = 3} -> Ply1_deep_ad_from_FH_stroke
 			p408: FH_Downline {ball = 4} -> Ply1_de_from_FH_stroke
@@ -627,7 +627,7 @@ Ply2_ad_stroke_from_BH = pcase{
 
 // player 2, ad deep, court 10
 // ad stroke is when player 2 hit position is 10 
-Ply2_deep_ad_stroke_from_FH = pcase{ 
+Ply2_deep_ad_from_FH_stroke = pcase{ 
 			p420: FH_Crosscourt {ball = 6} -> Ply1_ad_from_FH_stroke
 			p421: FH_Crosscourt_Deep {ball = 3} -> Ply1_deep_ad_from_FH_stroke
 			p422: FH_Downline {ball = 4} -> Ply1_de_from_FH_stroke
@@ -645,7 +645,7 @@ Ply2_deep_ad_stroke_from_FH = pcase{
 			p433: Error {ball=13} -> {p1score++; if (p1score == points) {won = player1}  
       		                                                     else { turn = (turn+1)%4} }-> NextPt  
 	};    		                 
-Ply2_deep_ad_stroke_from_BH = pcase{ 
+Ply2_deep_ad_from_BH_stroke = pcase{ 
 			p434: FH_Crosscourt {ball = 6} -> Ply1_ad_from_FH_stroke
 			p435: FH_Crosscourt_Deep {ball = 3} -> Ply1_deep_ad_from_FH_stroke
 			p436: FH_Downline {ball = 4} -> Ply1_de_from_FH_stroke

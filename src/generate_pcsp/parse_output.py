@@ -5,7 +5,7 @@ with open('out.txt', 'r') as file:
     data = file.read()
 
 # Regex to get required data
-pattern = r'(\d{4}-\d{2}-\d{2})_(.+?)_(.+?)\.pcsp.*?Probability \[\s*(\d+\.\d+),\s*(\d+\.\d+)\s*\];'
+pattern = r'(\d{4}-\d{2}-\d{2})_(.+?)_(.+?)_[RL]H-[RL]H\.pcsp.*?Probability \[\s*(\d+\.\d+),\s*(\d+\.\d+)\s*\];'
 
 # Find all matches in data string
 matches = re.findall(pattern, data, re.DOTALL)
