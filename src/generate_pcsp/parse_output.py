@@ -5,7 +5,7 @@ with open('out.txt', 'r') as file:
     data = file.read()
 
 # Regex to get required data
-pattern = r'[RL]H_(\d{4}-\d{2}-\d{2})_(.+?)_(.+?).pcsp.*?Probability \[(.+?), (.+?)\];'
+pattern = r'(\d{4}-\d{2}-\d{2})_(.+?)_(.+?)\.pcsp.*?Probability \[\s*(\d+\.\d+),\s*(\d+\.\d+)\s*\];'
 
 # Find all matches in data string
 matches = re.findall(pattern, data, re.DOTALL)
@@ -14,7 +14,7 @@ matches = re.findall(pattern, data, re.DOTALL)
 with open('output.csv', 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     # Write header
-    writer.writerow(['Date', 'P1Name', 'P2Name', 'P1WinProb', 'P2WinProb'])
+    writer.writerow(['date', 'P1Name', 'P2Name', 'P1WinProb', 'P2WinProb'])
 
     # Write extracted data
     for match in matches:
